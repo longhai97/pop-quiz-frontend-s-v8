@@ -1,6 +1,11 @@
 # Front End Take Home_v8
 Regov POC application
 
+## Setup environments
+
+This project use React Native CLI. It requires Xcode or Android Studio to get started. Please setup environment follow link:
+https://reactnative.dev/docs/environment-setup
+
 ### Tech Stack
 
 - [ReactNative] application
