@@ -24,6 +24,7 @@ export const schema = yup
 const Login: React.FC<Props> = ({ navigation }) => {
   const { onLogin, userEmail, userPassword } = useStore();
   const { userData } = useUserStore();
+  console.log("USER_DATA_STORE", userData);
   const [formError, setError] = useState<Boolean>(false);
   const [errorMessage, setErrorMessage] = useState<String>("");
   const [email, setEmail] = useState("");
@@ -33,8 +34,9 @@ const Login: React.FC<Props> = ({ navigation }) => {
     mode: "onChange",
     resolver: yupResolver(schema)
   });
-  const onSubmit: SubitHandler<FormValues> = data => {
-    console.log('onSubmit called with', data);
+  const isDisabled = !email || !password;
+
+  const onSubmit: SubmitHandler<FormValues> = data => {
     if ((userEmail === data.email && userPassword === data.password)
       || (userData.email === data.email && userData.password === data.password)) {
       onLogin();
@@ -42,26 +44,26 @@ const Login: React.FC<Props> = ({ navigation }) => {
       setErrorMessage("Email or password is wrong!");
     }
   };
-  const handleSignUp = () => {
+
+  const handleSignIn = () => {
     navigate("SignUp");
   };
   const handleResetPassword = () => {
     navigate("ResetPassword");
   };
+
   return (
-    <View>
-      <Text>WellCome</Text>
+    <View style={styles.container}>
+      <Text style={styles.title}>WellCome</Text>
       <FormProvider {...methods}>
-        <View>
+        <View style={{ width: "100%" }}>
           <TextInput
-            accessibilityLabel="Email"
             name="email"
             label="Email"
             keyboardType="email-address"
             setFormError={setError}
           />
           <TextInput
-            accessibilityLabel="Password"
             name="password"
             label="Password"
             secureTextEntry
@@ -75,12 +77,11 @@ const Login: React.FC<Props> = ({ navigation }) => {
         </Text>
       )}
       <TouchableOpacity
-        testID={"login-button"}
-        style={[styles.button, styles.disabledButton]}
+        style={[styles.button, isDisabled && styles.disabledButton]}
         onPress={methods.handleSubmit(onSubmit)}>
         <Text style={styles.buttonText}>Login</Text>
       </TouchableOpacity>
-      <TouchableOpacity onPress={handleSignUp}>
+      <TouchableOpacity onPress={handleSignIn}>
         <Text style={styles.resetPassword}>Sign Up</Text>
       </TouchableOpacity>
       <TouchableOpacity onPress={handleResetPassword}>
@@ -126,7 +127,7 @@ const styles = StyleSheet.create({
   },
   resetPassword: {
     marginTop: 10,
-    color: "blue"
+    color: "blue",
   },
   disabledButton: {
     opacity: 0.5
