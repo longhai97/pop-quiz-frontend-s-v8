@@ -1,27 +1,35 @@
-import React from 'react';
-import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
-import { Example } from '../screens';
+import React from "react";
+import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
+import { Home, UserProfile } from "../screens";
 
 const Tab = createBottomTabNavigator();
 
-// @refresh reset
 const MainNavigator = () => {
   return (
     <Tab.Navigator>
       <Tab.Screen
         name="Home"
-        component={Example}
+        component={Home}
         options={{
-          tabBarIconStyle: { display: 'none' },
-          tabBarLabelPosition: 'beside-icon',
+          headerTitle: "Product List",
+          tabBarIconStyle: { display: "none" },
+          tabBarLabelPosition: "beside-icon",
+          tabBarLabelStyle: {
+            fontWeight: "bold"
+          }
         }}
       />
       <Tab.Screen
-        name="Home2"
-        component={Example}
+        name="UserProfile"
+        component={UserProfile}
         options={{
-          tabBarIconStyle: { display: 'none' },
-          tabBarLabelPosition: 'beside-icon',
+          headerTitle: "Detail profile",
+          title: "Profile",
+          tabBarIconStyle: { display: "none" },
+          tabBarLabelPosition: "beside-icon",
+          tabBarLabelStyle: {
+            fontWeight: "bold"
+          }
         }}
       />
     </Tab.Navigator>

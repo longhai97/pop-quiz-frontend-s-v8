@@ -1,26 +1,23 @@
 import { NavigatorScreenParams } from "@react-navigation/native";
-import { StackScreenProps } from "@react-navigation/stack";
 
 export type MainParamsList = {
   Home: undefined;
+  UserProfile: undefined;
 };
-
-export type ApplicationStackParamList = {
-  Startup: undefined
-  Login: undefined
-  Main: NavigatorScreenParams<MainParamsList>
-};
-
-export type ApplicationScreenProps =
-  StackScreenProps<ApplicationStackParamList>;
 
 export type AuthStackParamList = {
-  Main: undefined
+  Example: undefined
+  Home: undefined
+  UserProfile: undefined
+  Main: NavigatorScreenParams<MainParamsList>;
 }
 
 export type UnAuthStackParamList = {
   Login: undefined
-  Startup: undefined
+  SignUp: undefined
+  ResetPassword: undefined
+  Main: undefined
+
 }
 
 export type CommonStackParamList = UnauthStackParamList & AuthStackParamList
