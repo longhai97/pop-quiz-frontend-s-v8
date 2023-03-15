@@ -32,15 +32,11 @@ export const schema = yup
 const SignUpScreen: React.FC<Props> = ({ navigation }) => {
   const { navigate } = navigation;
   const [formError, setError] = useState<Boolean>(false);
-  const [errorMessage, setErrorMessage] = useState<String>("");
   const { setUserData } = useUserStore();
 
-  const validateEmail = (email: string) => {
-    const emailRegex = /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i;
-    return emailRegex.test(email);
-  };
-  const onSubmit = async (data: FormValues) => {
-    await setUserData(data);
+  const onSubmit = (data: FormValues) => {
+    console.log('DATA__',data);
+    setUserData('user-information',data)
     navigate("Login");
   };
   const handleResetPassword = () => {
@@ -90,7 +86,6 @@ const SignUpScreen: React.FC<Props> = ({ navigation }) => {
           />
         </View>
       </FormProvider>
-      {errorMessage && <Text>{errorMessage}</Text>}
       <TouchableOpacity
         style={[styles.button, styles.button, isDisabled && styles.disabledButton]}
         onPress={methods.handleSubmit(onSubmit)}>
@@ -140,6 +135,9 @@ const styles = StyleSheet.create({
     color: "#fff",
     fontWeight: "bold",
     fontSize: 16
+  },
+  disabledButton: {
+    opacity: 0.5
   },
   resetPassword: {
     marginTop: 10,

@@ -1,14 +1,14 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
 import { UnAuthStackParamList } from "../../../@types/navigation";
 import { NativeStackScreenProps } from "@react-navigation/native-stack";
 import { useStore, useUserStore } from "../../store";
 import * as yup from "yup";
-import { FormProvider, SubmitHandler, useForm } from "react-hook-form";
+import { FieldValue, FormProvider, SubmitHandler, useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { TextInput } from "../../components";
 import { buttonColorStyles } from "../../theme/const";
-
+import { userInfo } from "os";
 type Props = NativeStackScreenProps<UnAuthStackParamList, "Login">
 type FormValues = {
   email: string;
@@ -23,22 +23,26 @@ export const schema = yup
 
 const Login: React.FC<Props> = ({ navigation }) => {
   const { onLogin, userEmail, userPassword } = useStore();
-  const { userData } = useUserStore();
-  console.log("USER_DATA_STORE", userData);
+  const { getUserData } = useUserStore();
   const [formError, setError] = useState<Boolean>(false);
   const [errorMessage, setErrorMessage] = useState<String>("");
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
   const { navigate } = navigation;
-  const { ...methods } = useForm({
+  const methods = useForm({
     mode: "onChange",
     resolver: yupResolver(schema)
   });
-  const isDisabled = !email || !password;
 
-  const onSubmit: SubmitHandler<FormValues> = data => {
+  useEffect(() => {
+    const userInfo = getUserData('user-information')
+    if (typeof userInfo === "string") {
+      console.log("USER_DATA_STORE", JSON.parse(userInfo));
+    }
+  }, []);
+
+  const onSubmit: SubmitHandler<FieldValue<any>> = data => {
     if ((userEmail === data.email && userPassword === data.password)
-      || (userData.email === data.email && userData.password === data.password)) {
+      // || (userData.email === data.email && userData.password === data.password)
+      ){
       onLogin();
     } else {
       setErrorMessage("Email or password is wrong!");
@@ -77,7 +81,7 @@ const Login: React.FC<Props> = ({ navigation }) => {
         </Text>
       )}
       <TouchableOpacity
-        style={[styles.button, isDisabled && styles.disabledButton]}
+        style={[styles.button, styles.disabledButton]}
         onPress={methods.handleSubmit(onSubmit)}>
         <Text style={styles.buttonText}>Login</Text>
       </TouchableOpacity>
@@ -127,7 +131,7 @@ const styles = StyleSheet.create({
   },
   resetPassword: {
     marginTop: 10,
-    color: "blue",
+    color: "blue"
   },
   disabledButton: {
     opacity: 0.5

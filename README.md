@@ -6,6 +6,15 @@ Regov POC application
 This project use React Native CLI. It requires Xcode or Android Studio to get started. Please setup environment follow link:
 https://reactnative.dev/docs/environment-setup
 
+- Node version : v16.16.0
+- Gradle version : 7.5.1
+- Java version : 15.0.1
+
+### Another Tool 
+
+- Android Studio version : 4.1.1
+- Xcode version : 13.3.1
+
 ### Tech Stack
 
 - [ReactNative] application
